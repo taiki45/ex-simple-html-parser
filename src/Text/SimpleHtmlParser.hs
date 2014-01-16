@@ -1,14 +1,9 @@
-module SimpleHtmlParser
-    (readHtml)
+module Text.SimpleHtmlParser
+    (parseSimpleHtml)
 where
 
 import Text.ParserCombinators.Parsec
-
-data Tag = Tag {
-                _name :: String,
-                _content :: String,
-                _children :: [Tag]
-              } deriving Show
+import Data.SimpleHtmlTag
 
 openB :: Parser Char
 openB = char '<'
@@ -38,7 +33,7 @@ parseTag = do spaces
               spaces
               content <- try (do contents <- parseContent `manyTill` parseETag name
                                  return $ foldr (++) [] contents)
-              return $ Tag {_children = children, _name = name, _content = content}
+              return $ Tag name content children
 
-readHtml :: String -> String -> Either ParseError Tag
-readHtml name input = parse parseTag name input
+parseSimpleHtml :: String -> String -> Either ParseError Tag
+parseSimpleHtml name input = parse parseTag name input

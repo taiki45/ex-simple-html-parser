@@ -1,12 +1,12 @@
 import System.Environment
-import SimpleHtmlParser
+import Text.SimpleHtmlParser
 
 main :: IO ()
 main = do args <- getArgs
           if length args == 0
               then
-                 do result <- getContents >>= return . readHtml "STDIN"
+                 do result <- getContents >>= return . parseSimpleHtml "STDIN"
                     putStrLn . (either show show) $ result
               else
-                 do result <- (readFile $ args !! 0) >>= return . (readHtml $ args !! 0)
+                 do result <- (readFile $ args !! 0) >>= return . (parseSimpleHtml $ args !! 0)
                     putStrLn . (either show show) $ result
