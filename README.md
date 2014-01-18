@@ -4,5 +4,7 @@ ex-simple-html-parser
 simple HTML parser for practice.
 
 ```
-runghc -isrc test/Main.hs  test/test.html
+cabal sandbox init
+cabal install --only-dependencies --enable-tests
+cabal configure --enable-tests && cabal build && cabal test
 ```
